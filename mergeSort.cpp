@@ -3,7 +3,7 @@ class Solution {
     void mergeSort(vector<int>& arr, int l, int r) {
         // code here
         if (l>=r) return;
-        int mid = (l + r)/2;
+        int mid = l + (r - l)/2;
         mergeSort(arr, l, mid);
         mergeSort(arr, mid+1, r);
         merge(arr, l, mid, r);
