@@ -1,36 +1,46 @@
 class Solution {
-  public:
-    void mergeSort(vector<int>& arr, int l, int r) {
-        // code here
-        if (l>=r) return;
-        int mid = l + (r - l)/2;
-        mergeSort(arr, l, mid);
-        mergeSort(arr, mid+1, r);
-        merge(arr, l, mid, r);
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        if (nums.size() <= 1) return nums;
+
+        vector<int> temp(nums.size());
+        mergeSort(nums, 0, nums.size() - 1, temp);
+        return nums;
     }
-    void merge(vector<int>& arr, int l, int mid, int r){
-        vector<int> temp;
-        int left = l;
-        int right = mid + 1;
-        while(left<=mid && right<=r){
-            if(arr[left]<=arr[right]){
-                temp.push_back(arr[left]);
-                left++;
-            }else{
-                temp.push_back(arr[right]);
-                right++;
+
+private:
+    void mergeSort(vector<int>& nums, int low, int high, vector<int>& temp) {
+        if (low >= high) return;
+
+        int mid = low + (high - low) / 2;
+        mergeSort(nums, low, mid, temp);
+        mergeSort(nums, mid + 1, high, temp);
+        merge(nums, low, mid, high, temp);
+    }
+
+    void merge(vector<int>& nums, int low, int mid, int high, vector<int>& temp) {
+        int l = low;
+        int r = mid + 1;
+        int idx = low;
+
+        while (l <= mid && r <= high) {
+            if (nums[l] <= nums[r]) {
+                temp[idx++] = nums[l++];
+            } else {
+                temp[idx++] = nums[r++];
             }
         }
-        while(left<=mid){
-            temp.push_back(arr[left]);
-            left++;
+
+        while (l <= mid) {
+            temp[idx++] = nums[l++];
         }
-        while(right<=r){
-            temp.push_back(arr[right]);
-            right++;
+
+        while (r <= high) {
+            temp[idx++] = nums[r++];
         }
-        for(int i=l; i<=r; i++){
-            arr[i] = temp[i-l];
+
+        for (int i = low; i <= high; i++) {
+            nums[i] = temp[i];
         }
     }
 };
